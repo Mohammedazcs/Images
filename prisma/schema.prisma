@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Image {
+  id      Int      @id @default(autoincrement())
+  url     String
+  description String
+  slideActive Boolean @default(false)
+  groupId     Int
+  Group     Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+}
+
+model Group {
+  id      Int      @id @default(autoincrement())
+  name    String
+  Image   Image[]
+}
